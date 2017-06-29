@@ -18,7 +18,7 @@ const username = "username";
 
 
 
-function isURL(url, supportIncomplete/*=false*/)
+const isURL = (url, supportIncomplete/*=false*/) =>
 {
 	if (!isObject(url)) return false;
 
@@ -48,7 +48,7 @@ function isURL(url, supportIncomplete/*=false*/)
 
 
 
-isURL.lenient = function(url)
+isURL.lenient = url =>
 {
 	return isURL(url, true);
 };

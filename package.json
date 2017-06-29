@@ -1,7 +1,7 @@
 {
   "name": "isurl",
   "description": "Checks whether a value is a WHATWG URL.",
-  "version": "1.0.0-alpha6",
+  "version": "1.0.0",
   "license": "MIT",
   "author": "Steven Vachon <contact@svachon.com> (https://www.svachon.com/)",
   "repository": "stevenvachon/isurl",
@@ -10,16 +10,16 @@
     "is-object": "^1.0.1"
   },
   "devDependencies": {
-    "chai": "^4.0.0",
+    "chai": "^4.0.2",
     "mocha": "^3.4.2",
-    "universal-url": "^1.0.0-alpha",
-    "whatwg-url": "^5.0.0"
+    "semver": "^5.3.0",
+    "universal-url": "^1.0.0"
   },
   "engines": {
     "node": ">= 4"
   },
   "scripts": {
-    "test": "mocha test --reporter spec --check-leaks --bail"
+    "test": "mocha test --check-leaks --bail"
   },
   "files": [
     "index.js"
