@@ -1,5 +1,7 @@
 # isurl [![NPM Version][npm-image]][npm-url] [![Build Status][travis-image]][travis-url]
 
+[![Greenkeeper badge](https://badges.greenkeeper.io/stevenvachon/isurl.svg)](https://greenkeeper.io/)
+
 > Checks whether a value is a WHATWG [`URL`](https://developer.mozilla.org/en/docs/Web/API/URL).
 
 
