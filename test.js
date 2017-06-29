@@ -2,18 +2,24 @@
 const expect = require("chai").expect;
 const isURL = require("./");
 const parseURL = require("url").parse;
-const incompleteURL = require("whatwg-url").URL;
+const semver = require("semver");
 
-// TODO :: use destructuring when dropping support for Node 4.x
-const _require = require("universal-url"),
-      URL = _require.URL,
-      URLSearchParams = _require.URLSearchParams;
+const atLeastNode6 = semver.satisfies(process.version, ">= 6");
 
-const it_searchParamsOnly = URLSearchParams===undefined ? it.skip : it;
+const it_atLeastNode6 = atLeastNode6 ? it : it.skip;
+
+let URL,URLSearchParams;
+
+if (atLeastNode6)
+{
+	const uurl = require("universal-url");
+	URL = uurl.URL,
+    URLSearchParams = uurl.URLSearchParams;
+}
 
 
 
-it_searchParamsOnly("accepts a full implemention", function()
+it_atLeastNode6("accepts a full implemention", function()
 {
 	expect( isURL(new URL("http://domain/")) ).to.be.true;
 	expect( isURL(new URL("http://domain/"),false) ).to.be.true;
@@ -21,9 +27,27 @@ it_searchParamsOnly("accepts a full implemention", function()
 
 
 
-it("can accept a partial implemention", function()
+it_atLeastNode6("can accept a partial implemention", function()
 {
-	expect( isURL.lenient(new incompleteURL("http://domain/")) ).to.be.true;
+	function IncompleteURL(url, base)
+	{
+		this.url = new URL(url, base);
+
+		// Extend all `URL` getters except `searchParams`
+		Object.keys(URL.prototype)
+		.filter(key => key !== "searchParams")
+		.forEach(key => Object.defineProperty
+		(
+			this, key,
+			{
+				get: () => this.url[key],
+				set: newValue => this.url[key] = newValue
+			}
+		));
+	}
+
+	expect( isURL(new IncompleteURL("http://domain/")) ).to.be.false;
+	expect( isURL.lenient(new IncompleteURL("http://domain/")) ).to.be.true;
 });
 
 
@@ -58,7 +82,7 @@ it("rejects a mocked partial implementation using toStringTag", function()
 
 describe("Weaknesses", function()
 {
-	it_searchParamsOnly("accepts a mocked full implementation", function()
+	it("accepts a mocked full implementation", function()
 	{
 		const mock =
 		{

@@ -1,4 +1,4 @@
-# isurl [![NPM Version][npm-image]][npm-url] [![Build Status][travis-image]][travis-url]
+# isurl [![NPM Version][npm-image]][npm-url] [![Build Status][travis-image]][travis-url] [![Dependency Monitor][greenkeeper-image]][greenkeeper-url]
 
 > Checks whether a value is a WHATWG [`URL`](https://developer.mozilla.org/en/docs/Web/API/URL).
 
@@ -37,3 +37,5 @@ isURL.lenient(url);  //-> true
 [npm-url]: https://npmjs.org/package/isurl
 [travis-image]: https://img.shields.io/travis/stevenvachon/isurl.svg
 [travis-url]: https://travis-ci.org/stevenvachon/isurl
+[greenkeeper-image]: https://badges.greenkeeper.io/stevenvachon/isurl.svg
+[greenkeeper-url]: https://greenkeeper.io/
