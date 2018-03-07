@@ -18,40 +18,47 @@ const username = "username";
 
 
 
-const isURL = (url, supportIncomplete/*=false*/) =>
+const isURL = (url, supportIncomplete=false) =>
 {
-	if (!isObject(url)) return false;
-
-	// Native implementation in older browsers
-	if (!hasToStringTag && toString.call(url) === urlClass) return true;
-
-	if (!(href     in url)) return false;
-	if (!(protocol in url)) return false;
-	if (!(username in url)) return false;
-	if (!(password in url)) return false;
-	if (!(hostname in url)) return false;
-	if (!(port     in url)) return false;
-	if (!(host     in url)) return false;
-	if (!(pathname in url)) return false;
-	if (!(search   in url)) return false;
-	if (!(hash     in url)) return false;
-
-	if (supportIncomplete !== true)
+	if (!isObject(url))
 	{
-		if (!isObject(url.searchParams)) return false;
-
-		// TODO :: write a separate isURLSearchParams ?
+		return false;
 	}
-
-	return true;
-}
-
-
-
-isURL.lenient = url =>
-{
-	return isURL(url, true);
+	else if (!hasToStringTag && toString.call(url) === urlClass)
+	{
+		// Native implementation in older browsers -- unlikely, but thorough
+		return supportIncomplete;
+	}
+	else if
+		(!(
+			href     in url &&
+			protocol in url &&
+			username in url &&
+			password in url &&
+			hostname in url &&
+			port     in url &&
+			host     in url &&
+			pathname in url &&
+			search   in url &&
+			hash     in url
+		))
+	{
+		return false;
+	}
+	else if (!supportIncomplete)
+	{
+		// TODO :: write a separate isURLSearchParams ?
+		return isObject(url.searchParams);
+	}
+	else
+	{
+		return true;
+	}
 };
+
+
+
+isURL.lenient = url => isURL(url, true);
 
 
 
