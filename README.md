@@ -13,12 +13,16 @@ Works cross-realm/iframe and despite `Symbol.toStringTag`.
 npm install isurl
 ```
 
+## Importing
+
+```js
+import isURL from 'isurl'; // ES6
+const isURL = require('isurl'); // ES5 with npm
+```
 
 ## Usage
 
 ```js
-const isURL = require('isurl');
-
 isURL('http://domain/');  //-> false
 isURL(new URL('http://domain/'));  //-> true
 ```
