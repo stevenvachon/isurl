@@ -1,28 +1,42 @@
 {
   "name": "isurl",
-  "description": "Checks whether a value is a WHATWG URL.",
-  "version": "2.0.0",
+  "description": "Determines whether a value is a WHATWG URL.",
+  "version": "4.0.0",
   "license": "MIT",
   "author": "Steven Vachon <contact@svachon.com> (https://www.svachon.com/)",
-  "repository": "stevenvachon/isurl",
+  "repository": "github:stevenvachon/isurl",
+  "main": "lib",
   "dependencies": {
     "has-to-string-tag-x": "^1.4.1",
-    "is-object": "^1.0.1"
+    "is-object": "^1.0.1",
+    "is-urlsearchparams": "^1.0.0"
   },
   "devDependencies": {
+    "@babel/core": "^7.2.0",
+    "@babel/preset-env": "^7.2.0",
+    "babelify": "^10.0.0",
+    "browserify": "^16.2.3",
     "chai": "^4.2.0",
-    "incomplete-url": "^2.0.0",
+    "coveralls": "^3.0.2",
+    "decache": "^4.5.0",
+    "gzip-size-cli": "^3.0.0",
+    "incomplete-symbol": "^1.0.0",
+    "incomplete-url": "^4.0.0",
     "mocha": "^5.2.0",
-    "universal-url": "^2.0.0"
+    "nyc": "^13.1.0",
+    "terser": "^3.14.1",
+    "whatwg-url": "^7.0.0"
   },
   "engines": {
-    "node": ">= 6"
+    "node": ">= 8"
   },
   "scripts": {
-    "test": "mocha test --check-leaks --bail"
+    "ci": "npm run test && nyc report --reporter=text-lcov | coveralls",
+    "posttest": "nyc report --reporter=html && browserify lib --global-transform [ babelify --presets [ @babel/env ] ] --standalone=isURL | terser --compress --mangle | gzip-size",
+    "test": "nyc --reporter=text-summary mocha test --check-leaks --bail"
   },
   "files": [
-    "index.js"
+    "lib"
   ],
   "keywords": [
     "uri",
