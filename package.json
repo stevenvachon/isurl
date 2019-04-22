@@ -1,30 +1,32 @@
 {
   "name": "isurl",
   "description": "Determines whether a value is a WHATWG URL.",
-  "version": "4.0.0",
+  "version": "4.0.1",
   "license": "MIT",
-  "author": "Steven Vachon <contact@svachon.com> (https://www.svachon.com/)",
+  "author": "Steven Vachon <contact@svachon.com> (https://svachon.com)",
   "repository": "github:stevenvachon/isurl",
   "main": "lib",
+  "browser": "lib-es5",
   "dependencies": {
     "has-to-string-tag-x": "^1.4.1",
     "is-object": "^1.0.1",
-    "is-urlsearchparams": "^1.0.0"
+    "is-urlsearchparams": "^1.0.1"
   },
   "devDependencies": {
-    "@babel/core": "^7.2.0",
-    "@babel/preset-env": "^7.2.0",
+    "@babel/cli": "^7.4.3",
+    "@babel/core": "^7.4.3",
+    "@babel/preset-env": "^7.4.3",
     "babelify": "^10.0.0",
     "browserify": "^16.2.3",
     "chai": "^4.2.0",
-    "coveralls": "^3.0.2",
-    "decache": "^4.5.0",
+    "coveralls": "^3.0.3",
+    "decache": "^4.5.1",
     "gzip-size-cli": "^3.0.0",
     "incomplete-symbol": "^1.0.0",
     "incomplete-url": "^4.0.0",
-    "mocha": "^5.2.0",
-    "nyc": "^13.1.0",
-    "terser": "^3.14.1",
+    "mocha": "^6.1.4",
+    "nyc": "^14.0.0",
+    "terser": "^3.17.0",
     "whatwg-url": "^7.0.0"
   },
   "engines": {
@@ -32,11 +34,13 @@
   },
   "scripts": {
     "ci": "npm run test && nyc report --reporter=text-lcov | coveralls",
-    "posttest": "nyc report --reporter=html && browserify lib --global-transform [ babelify --presets [ @babel/env ] ] --standalone=isURL | terser --compress --mangle | gzip-size",
-    "test": "nyc --reporter=text-summary mocha test --check-leaks --bail"
+    "posttest": "nyc report --reporter=text-summary --reporter=html && browserify lib --global-transform [ babelify --presets [ @babel/env ] ] --standalone=isURL | terser --compress --mangle | gzip-size",
+    "prepublishOnly": "npm test && babel lib/ --out-dir=lib-es5/ --presets=@babel/env --source-maps",
+    "test": "nyc --silent mocha test.js --check-leaks --bail"
   },
   "files": [
-    "lib"
+    "lib",
+    "lib-es5"
   ],
   "keywords": [
     "uri",
