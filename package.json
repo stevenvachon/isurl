@@ -9,7 +9,6 @@
   "browser": "lib-es5",
   "dependencies": {
     "has-to-string-tag-x": "^1.4.1",
-    "is-object": "^1.0.1",
     "is-urlsearchparams": "^1.0.1"
   },
   "devDependencies": {
