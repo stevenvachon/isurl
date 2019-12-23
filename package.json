@@ -25,7 +25,7 @@
     "incomplete-symbol": "^1.0.0",
     "incomplete-url": "^4.0.0",
     "mocha": "^6.1.4",
-    "nyc": "^14.0.0",
+    "nyc": "^15.0.0",
     "terser": "^3.17.0",
     "whatwg-url": "^7.0.0"
   },
