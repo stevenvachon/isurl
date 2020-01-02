@@ -27,7 +27,7 @@
     "mocha": "^6.1.4",
     "nyc": "^14.0.0",
     "terser": "^3.17.0",
-    "whatwg-url": "^7.0.0"
+    "whatwg-url": "^8.0.0"
   },
   "engines": {
     "node": ">= 8"
