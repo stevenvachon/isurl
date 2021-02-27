@@ -1,16 +1,16 @@
 {
   "name": "isurl",
   "description": "Determines whether a value is a WHATWG URL.",
-  "version": "4.0.1",
+  "version": "4.0.2",
   "license": "MIT",
   "author": "Steven Vachon <contact@svachon.com> (https://svachon.com)",
   "repository": "github:stevenvachon/isurl",
   "main": "lib",
   "browser": "lib-es5",
   "dependencies": {
-    "has-to-string-tag-x": "^1.4.1",
-    "is-object": "^1.0.1",
-    "is-urlsearchparams": "^1.0.1"
+    "has-to-string-tag-x": "^2.1.2",
+    "is-object": "^1.0.2",
+    "is-urlsearchparams": "^1.0.2"
   },
   "devDependencies": {
     "@babel/cli": "^7.4.3",
@@ -33,10 +33,10 @@
     "node": ">= 8"
   },
   "scripts": {
-    "ci": "npm run test && nyc report --reporter=text-lcov | coveralls",
+    "ci": "npm test && nyc report --reporter=text-lcov | coveralls",
     "posttest": "nyc report --reporter=text-summary --reporter=html && browserify lib --global-transform [ babelify --presets [ @babel/env ] ] --standalone=isURL | terser --compress --mangle | gzip-size",
     "prepublishOnly": "npm test && babel lib/ --out-dir=lib-es5/ --presets=@babel/env --source-maps",
-    "test": "nyc --silent mocha test.js --check-leaks --bail"
+    "test": "nyc --silent mocha test.js --bail --check-leaks"
   },
   "files": [
     "lib",

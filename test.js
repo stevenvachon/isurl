@@ -4,12 +4,12 @@ const customizeSymbol = require("incomplete-symbol");
 const customizeURL = require("incomplete-url");
 const decache = require("decache");
 const {expect} = require("chai");
-const {lenientProperties, strictProperties} = require("./lib/props");
+const {LENIENT_PROPERTIES, STRICT_PROPERTIES} = require("./lib/props");
 const {parse: parseURL, URL: NativeURL} = require("url");
 const {URL: ShimmedURL} = require("whatwg-url");
 
-const urlProperties = [...lenientProperties, ...strictProperties];
-const urlString = "http://domain/";
+const URL_PROPERTIES = [...LENIENT_PROPERTIES, ...STRICT_PROPERTIES];
+const URL_STRING = "http://domain/";
 let isURL;
 
 
@@ -21,8 +21,8 @@ const createMock = (config={}) =>
 		hash: "",
 		host: "domain",
 		hostname: "domain",
-		href: urlString,
-		origin: urlString,
+		href: URL_STRING,
+		origin: URL_STRING,
 		password: "",
 		pathname: "/",
 		port: "",
@@ -47,7 +47,7 @@ const createMock = (config={}) =>
 
 	const {skipKey, toStringTag} = config;
 
-	if (skipKey && urlProperties.includes(skipKey))
+	if (skipKey && URL_PROPERTIES.includes(skipKey))
 	{
 		delete mock[skipKey];
 	}
@@ -86,7 +86,7 @@ before(() => requireFreshLibs());
 
 it("accepts a native full implemention", () =>
 {
-	const url = new NativeURL(urlString);
+	const url = new NativeURL(URL_STRING);
 
 	expect( isURL(url) ).to.be.true;
 	expect( isURL.lenient(url) ).to.be.true;
@@ -96,7 +96,7 @@ it("accepts a native full implemention", () =>
 
 it("accepts a shimmed full implemention", () =>
 {
-	const url = new ShimmedURL(urlString);
+	const url = new ShimmedURL(URL_STRING);
 
 	expect( isURL(url) ).to.be.true;
 	expect( isURL.lenient(url) ).to.be.true;
@@ -107,7 +107,7 @@ it("accepts a shimmed full implemention", () =>
 it("can accept a partial implemention", () =>
 {
 	const {IncompleteURL} = customizeURL({ urlExclusions:["searchParams"] });
-	const url = new IncompleteURL(urlString);
+	const url = new IncompleteURL(URL_STRING);
 
 	expect( isURL(url) ).to.be.false;
 	expect( isURL.lenient(url) ).to.be.true;
@@ -118,7 +118,7 @@ it("can accept a partial implemention", () =>
 it("can accept a partial URLSearchParams implemention", () =>
 {
 	const {IncompleteURL} = customizeURL({ paramsExclusions:["sort"] });
-	const url = new IncompleteURL(urlString);
+	const url = new IncompleteURL(URL_STRING);
 
 	expect( isURL(url) ).to.be.false;
 	expect( isURL.lenient(url) ).to.be.true;
@@ -130,11 +130,11 @@ it("rejects non-URL types", () =>
 {
 	const fixtures =
 	[
-		urlString,
+		URL_STRING,
 		createMock(),
-		parseURL(urlString),
-		parseURL(urlString, true),
-		Symbol(urlString),
+		parseURL(URL_STRING),
+		parseURL(URL_STRING, true),
+		Symbol(URL_STRING),
 		{},
 		[],
 		/regex/,
@@ -153,7 +153,7 @@ it("rejects non-URL types", () =>
 
 
 
-urlProperties.forEach(key =>
+URL_PROPERTIES.forEach(key =>
 {
 	it(`rejects a mocked implementation lacking the "${key}" property`, () =>
 	{
@@ -161,7 +161,7 @@ urlProperties.forEach(key =>
 
 		expect( isURL(mock) ).to.be.false;
 
-		if (lenientProperties.includes(key))
+		if (LENIENT_PROPERTIES.includes(key))
 		{
 			expect( isURL.lenient(mock) ).to.be.true;
 		}

@@ -1,6 +1,6 @@
 # isurl [![NPM Version][npm-image]][npm-url] ![File Size][filesize-image] [![Build Status][travis-image]][travis-url] [![Dependency Monitor][greenkeeper-image]][greenkeeper-url]
 
-> Determines whether a value is a WHATWG [`URL`](https://developer.mozilla.org/en/docs/Web/API/URL).
+> Determines whether a value is a WHATWG [`URL`](https://mdn.io/URL).
 
 
 Works cross-realm/iframe and despite `Symbol.toStringTag`.
@@ -8,7 +8,7 @@ Works cross-realm/iframe and despite `Symbol.toStringTag`.
 
 ## Installation
 
-[Node.js](http://nodejs.org/) `>= 8` is required. To install, type this at the command line:
+[Node.js](https://nodejs.org) `>= 8` is required. To install, type this at the command line:
 ```shell
 npm install isurl
 ```
@@ -35,7 +35,7 @@ isURL.lenient(url);  //-> true
 
 [npm-image]: https://img.shields.io/npm/v/isurl.svg
 [npm-url]: https://npmjs.com/package/isurl
-[filesize-image]: https://img.shields.io/badge/size-1kB%20gzipped-blue.svg
+[filesize-image]: https://img.shields.io/badge/bundle-3.1kB%20gzipped-blue.svg
 [travis-image]: https://img.shields.io/travis/stevenvachon/isurl.svg
 [travis-url]: https://travis-ci.org/stevenvachon/isurl
 [greenkeeper-image]: https://badges.greenkeeper.io/stevenvachon/isurl.svg
