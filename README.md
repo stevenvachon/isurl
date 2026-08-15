@@ -1,42 +1,47 @@
-# isurl [![NPM Version][npm-image]][npm-url] ![File Size][filesize-image] [![Build Status][travis-image]][travis-url] [![Dependency Monitor][greenkeeper-image]][greenkeeper-url]
+# isurl [![NPM Version][npm-image]][npm-url] ![File Size][filesize-image] ![Build Status][ghactions-image] [![Coverage Status][codecov-image]][codecov-url]
 
-> Determines whether a value is a WHATWG [`URL`](https://mdn.io/URL).
-
+> Determine whether a value is a [`URL`](https://mdn.io/URL) instance.
 
 Works cross-realm/iframe and despite `Symbol.toStringTag`.
 
+> [!NOTE]
+>
+> If you need to support older versions of Node.js (going back to `8.x`), use `4.x` of this package.
 
-## Installation
+## Install
 
-[Node.js](https://nodejs.org) `>= 8` is required. To install, type this at the command line:
 ```shell
 npm install isurl
 ```
 
-
 ## Usage
 
-```js
-const isURL = require('isurl');
+### Strict
 
-isURL('http://domain/');  //-> false
-isURL(new URL('http://domain/'));  //-> true
+The standard.
+
+```js
+import isURL from 'isurl';
+
+isURL('http://domain/'); //-> false
+isURL(new URL('http://domain/')); //-> true
 ```
 
-Optionally, acceptance can be extended to incomplete `URL` implementations that lack `origin`, `searchParams` and `toJSON` properties (which are common in many modern web browsers):
+### Lenient
+
+Acceptance can be extended to incomplete `URL` implementations that lack `origin`, `searchParams` and `toJSON` properties (which is common with web browsers from 2021):
+
 ```js
-const url = new URL('http://domain/?query');
+import isURL from 'isurl/lenient';
 
-console.log(url.searchParams);  //-> undefined
+console.log(url.searchParams); //-> undefined
 
-isURL.lenient(url);  //-> true
+isURL(url); //-> true
 ```
 
-
-[npm-image]: https://img.shields.io/npm/v/isurl.svg
+[npm-image]: https://img.shields.io/npm/v/isurl
 [npm-url]: https://npmjs.com/package/isurl
-[filesize-image]: https://img.shields.io/badge/bundle-3.1kB%20gzipped-blue.svg
-[travis-image]: https://img.shields.io/travis/stevenvachon/isurl.svg
-[travis-url]: https://travis-ci.org/stevenvachon/isurl
-[greenkeeper-image]: https://badges.greenkeeper.io/stevenvachon/isurl.svg
-[greenkeeper-url]: https://greenkeeper.io/
+[filesize-image]: https://img.shields.io/badge/bundle-865B%20gzipped-blue.svg
+[ghactions-image]: https://img.shields.io/github/actions/workflow/status/stevenvachon/isurl/test.yml
+[codecov-image]: https://img.shields.io/codecov/c/github/stevenvachon/isurl
+[codecov-url]: https://app.codecov.io/github/stevenvachon/isurl

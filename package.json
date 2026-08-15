@@ -1,46 +1,54 @@
 {
   "name": "isurl",
-  "description": "Determines whether a value is a WHATWG URL.",
-  "version": "4.0.2",
+  "description": "Determine whether a value is a URL instance.",
+  "version": "5.0.0-rc",
   "license": "MIT",
   "author": "Steven Vachon <contact@svachon.com> (https://svachon.com)",
   "repository": "github:stevenvachon/isurl",
-  "main": "lib",
-  "browser": "lib-es5",
+  "type": "module",
+  "exports": {
+    ".": "./dist/isURL.js",
+    "./lenient": "./dist/isURLLenient.js"
+  },
   "dependencies": {
-    "has-to-string-tag-x": "^2.1.2",
+    "has-tostringtag": "^1.0.2",
     "is-object": "^1.0.2",
-    "is-urlsearchparams": "^1.0.2"
+    "is-urlsearchparams": "^2.0.0-rc"
   },
   "devDependencies": {
-    "@babel/cli": "^7.4.3",
-    "@babel/core": "^7.4.3",
-    "@babel/preset-env": "^7.4.3",
-    "babelify": "^10.0.0",
-    "browserify": "^16.2.3",
-    "chai": "^4.2.0",
-    "coveralls": "^3.0.3",
-    "decache": "^4.5.1",
-    "gzip-size-cli": "^3.0.0",
-    "incomplete-symbol": "^1.0.0",
-    "incomplete-url": "^4.0.0",
-    "mocha": "^6.1.4",
-    "nyc": "^14.0.0",
-    "terser": "^3.17.0",
-    "whatwg-url": "^7.0.0"
+    "@rollup/plugin-commonjs": "^29.0.3",
+    "@rollup/plugin-node-resolve": "^16.0.3",
+    "@types/is-object": "^1.0.5",
+    "@types/node": "^26.2.0",
+    "@types/whatwg-url": "^13.0.0",
+    "@vitest/coverage-v8": "^4.1.10",
+    "cspell": "^10.0.1",
+    "gzip-size-cli": "^5.1.0",
+    "incomplete-symbol": "^2.0.0",
+    "incomplete-url": "^5.0.0",
+    "prettier": "^3.9.6",
+    "rollup": "^4.62.4",
+    "terser": "^5.50.0",
+    "typescript": "^7.0.2",
+    "vitest": "^4.1.10",
+    "whatwg-url": "^17.1.0"
   },
   "engines": {
-    "node": ">= 8"
+    "node": ">= 22"
   },
   "scripts": {
-    "ci": "npm test && nyc report --reporter=text-lcov | coveralls",
-    "posttest": "nyc report --reporter=text-summary --reporter=html && browserify lib --global-transform [ babelify --presets [ @babel/env ] ] --standalone=isURL | terser --compress --mangle | gzip-size",
-    "prepublishOnly": "npm test && babel lib/ --out-dir=lib-es5/ --presets=@babel/env --source-maps",
-    "test": "nyc --silent mocha test.js --bail --check-leaks"
+    "build": "npm run build:spellcheck && npm run build:lint && npm run build:typecheck:supplemental && npm run build:compile && npm run build:filesize",
+    "build:compile": "tsc -p tsconfig.build.json",
+    "build:filesize": "rollup dist/isURL.js --format umd --name isURL -p @rollup/plugin-node-resolve -p @rollup/plugin-commonjs | terser --compress 'passes=3' --mangle | gzip-size",
+    "build:lint": "prettier --check '**/*.{config.js,json,md,ts}' '!coverage/**' '!dist/**'",
+    "build:spellcheck": "cspell '**/*.{config.js,json,md,ts}' '!coverage/**' '!dist/**' '!node_modules/**' --no-progress",
+    "build:typecheck:supplemental": "tsc --project tsconfig.check.json",
+    "prepublishOnly": "npm run build && npm test",
+    "test": "npm run test:watch -- --reporter=verbose --run",
+    "test:watch": "vitest dev --coverage --coverage.exclude=src/*.test.ts --coverage.include=src/*.ts --coverage.reporter=html --coverage.reporter=lcov --coverage.reporter=text"
   },
   "files": [
-    "lib",
-    "lib-es5"
+    "dist"
   ],
   "keywords": [
     "uri",
