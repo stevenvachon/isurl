@@ -1,0 +1,37 @@
+on:
+  pull_request:
+    branches: [4.x.x]
+  push:
+    branches: [4.x.x]
+
+jobs:
+  Test:
+    name: Node ${{ matrix.node }}
+    runs-on: ${{ matrix.os || 'ubuntu-latest' }}
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - node: 8
+            os: ubuntu-22.04
+          - node: 'lts/*'
+          - node: latest
+            experimental: true
+    continue-on-error: ${{ matrix.experimental || false }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6
+      - name: Install Node.js
+        uses: actions/setup-node@v6
+        with:
+          node-version: ${{ matrix.node }}
+      - name: Install dependencies
+        run: npm install
+      - name: Run tests
+        run: npm test
+      - name: Upload results to Codecov
+        if: github.event_name == 'push' && matrix.node == 'lts/*'
+        uses: codecov/codecov-action@v6
+        with:
+          token: ${{ secrets.CODECOV_TOKEN }}
+          slug: stevenvachon/isurl

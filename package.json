@@ -1,6 +1,6 @@
 {
   "name": "isurl",
-  "description": "Determines whether a value is a WHATWG URL.",
+  "description": "Determine whether a value is a URL instance.",
   "version": "4.0.2",
   "license": "MIT",
   "author": "Steven Vachon <contact@svachon.com> (https://svachon.com)",
@@ -19,7 +19,6 @@
     "babelify": "^10.0.0",
     "browserify": "^16.2.3",
     "chai": "^4.2.0",
-    "coveralls": "^3.0.3",
     "decache": "^4.5.1",
     "gzip-size-cli": "^3.0.0",
     "incomplete-symbol": "^1.0.0",
@@ -33,8 +32,7 @@
     "node": ">= 8"
   },
   "scripts": {
-    "ci": "npm test && nyc report --reporter=text-lcov | coveralls",
-    "posttest": "nyc report --reporter=text-summary --reporter=html && browserify lib --global-transform [ babelify --presets [ @babel/env ] ] --standalone=isURL | terser --compress --mangle | gzip-size",
+    "posttest": "nyc report --reporter=text-summary --reporter=lcov && browserify lib --global-transform [ babelify --presets [ @babel/env ] ] --standalone=isURL | terser --compress --mangle | gzip-size",
     "prepublishOnly": "npm test && babel lib/ --out-dir=lib-es5/ --presets=@babel/env --source-maps",
     "test": "nyc --silent mocha test.js --bail --check-leaks"
   },
